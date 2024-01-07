@@ -1,4 +1,4 @@
-project(anincnn)
+project(ani)
 
 cmake_minimum_required(VERSION 3.10)
 set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/opencv-4.8.1-android-sdk/sdk/native/jni)
@@ -16,7 +16,7 @@ include_directories(${ANI_DIR}
                     )
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/utils)
 
-add_library(anincnn SHARED
+add_library(ani SHARED
         ${ANI_DIR}/yolov8ncnn.cpp
         ${ANI_DIR}/yolo.cpp
         ${ANI_DIR}/ndkcamera.cpp
@@ -31,4 +31,4 @@ add_library(anincnn SHARED
         ${ANI_DIR}/utils/noncopyable.hpp
         )
 
-target_link_libraries(anincnn ncnn ${OpenCV_LIBS} camera2ndk mediandk)
+target_link_libraries(ani ncnn ${OpenCV_LIBS} camera2ndk mediandk)

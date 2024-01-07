@@ -31,7 +31,7 @@ public class Yolov8Ncnn
     public native boolean setOutputWindow(Surface surface);
 
     static {
-        System.loadLibrary("anincnn");
+        System.loadLibrary("ani");
     }
     public class Obj
     {
