@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AniFacePro</string>
+    <string name="ch_camera">切换摄像头</string>
+    <string name="rc_image">识别图像</string>
+    <string-array name="model_array">
+        <item>yolov8n</item>
+        <item>yolov8s</item>
+        <item>birds_200-sim-opt-fp16</item>
+    </string-array>
+    <string-array name="cpugpu_array">
+        <item>CPU</item>
+        <item>GPU</item>
+    </string-array>
+</resources>

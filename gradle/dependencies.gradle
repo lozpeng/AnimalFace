@@ -1,0 +1,12 @@
+ext {
+    androidVersions = [
+            minSdkVersion    : 24,
+            targetSdkVersion : 33,
+            compileSdkVersion: 33,
+    ]
+    androidSdkVersions = [
+            buildToolsVersion: '30.0.3',
+            ndkVersion       : '25.2.9519653',
+            cmakeVersion     : '3.10.2',
+    ]
+}
