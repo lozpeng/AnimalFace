@@ -12,7 +12,7 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-package com.tencent.yolov8ncnn;
+package org.cwcc.ani.ai.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,6 +33,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+
+import org.cwcc.ani.ai.R;
+import org.cwcc.ani.ai.model.Yolov8Model;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -41,7 +45,7 @@ import java.io.IOException;
  */
 public class ImageSelectActivity extends Activity
 {
-    private Yolov8Ncnn yolov8ncnn = new Yolov8Ncnn();
+    private Yolov8Model yolov8ncnn = new Yolov8Model();
     private Spinner spinnerModel;
     private Spinner spinnerCPUGPU;
     private int current_model = 0; // yolov8n
@@ -139,7 +143,7 @@ public class ImageSelectActivity extends Activity
         }
     }
 
-    private void showObjects(Yolov8Ncnn.Obj[] objects)
+    private void showObjects(Yolov8Model.Obj[] objects)
     {
         if (objects == null)
         {
@@ -238,7 +242,7 @@ public class ImageSelectActivity extends Activity
                     if (yourSelectedImage == null)
                         return;
 
-                    Yolov8Ncnn.Obj[] objects = yolov8ncnn.Detect(yourSelectedImage);
+                    Yolov8Model.Obj[] objects = yolov8ncnn.Detect(yourSelectedImage);
 
                     showObjects(objects);
                 }

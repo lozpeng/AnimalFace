@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.tencent.yolov8ncnn"
-      android:versionCode="1"
-      android:versionName="1.1">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera2.full" />
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <!-- 录制声音通过手机或耳机的麦克 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-feature android:name="android.hardware.camera"
+                    android:required="false"/>
 
-    <application android:label="@string/app_name">
-        <activity android:name="ImageSelectActivity"
+    <application android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/Theme.AniGeoMapPro"
+        android:name=".AniApplication"
+        android:usesCleartextTraffic="true"
+        >
+
+        <activity android:name=".activities.ImageSelectActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="MainActivity"
+        <activity android:name=".activities.MainActivity"
                   android:label="@string/app_name"
+                  android:exported="true"
                   android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

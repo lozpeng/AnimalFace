@@ -12,7 +12,7 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-package com.tencent.yolov8ncnn;
+package org.cwcc.ani.ai.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -20,9 +20,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -30,10 +28,14 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
-
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import org.cwcc.ani.ai.R;
+import org.cwcc.ani.ai.model.Yolov8Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
 {
     public static final int REQUEST_CAMERA = 100;
 
-    private Yolov8Ncnn yolov8ncnn = new Yolov8Ncnn();
+    private final Yolov8Model yolov8ncnn = new Yolov8Model();
     private int facing = 0;
 
     private Spinner spinnerModel;

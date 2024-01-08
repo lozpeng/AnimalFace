@@ -1,4 +1,4 @@
-package org.cwcc.ani.ai;
+package org.cwcc.ani.ai.model;
 
 /**
  * 模型基本信息

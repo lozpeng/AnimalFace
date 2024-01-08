@@ -256,7 +256,7 @@ bool cvMatrix2Bitmap(JNIEnv * env, cv::Mat & matrix, jobject obj_bitmap) {
 
 
 // public native boolean loadModel(AssetManager mgr, int modelid, int cpugpu);
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_loadModel(JNIEnv* env, jobject thiz, jobject assetManager, jint modelid, jint cpugpu)
+JNIEXPORT jboolean JNICALL Java_org_cwcc_ani_ai_model_Yolov8Model_loadModel(JNIEnv* env, jobject thiz, jobject assetManager, jint modelid, jint cpugpu)
 {
     if (modelid < 0 || modelid > 6 || cpugpu < 0 || cpugpu > 1)
     {
@@ -317,10 +317,10 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_loadModel(JNIE
         }
     }
     // init jni glue 初始化返回结果
-    jclass localObjCls = env->FindClass("com/tencent/yolov8ncnn/Yolov8Ncnn$Obj");
+    jclass localObjCls = env->FindClass("org/cwcc/ani/ai/model/Yolov8Model$Obj");
     objCls = reinterpret_cast<jclass>(env->NewGlobalRef(localObjCls));
 
-    constructortorId = env->GetMethodID(objCls, "<init>", "(Lcom/tencent/yolov8ncnn/Yolov8Ncnn;)V");
+    constructortorId = env->GetMethodID(objCls, "<init>", "(Lorg/cwcc/ani/ai/model/Yolov8Model;)V");
 
     xId = env->GetFieldID(objCls, "x", "F");
     yId = env->GetFieldID(objCls, "y", "F");
@@ -334,13 +334,13 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_loadModel(JNIE
 
 // public native boolean loadModelPro(AssetManager mgr,NcnnModel modelInfo);
 JNIEXPORT jboolean JNICALL
-Java_com_tencent_yolov8ncnn_Yolov8Ncnn_loadModelPro(JNIEnv *env, jobject thiz, jobject mgr, jobject model_info) {
+Java_org_cwcc_ani_ai_model_Yolov8Model_loadModelPro(JNIEnv *env, jobject thiz, jobject mgr, jobject model_info) {
     // TODO: implement loadModelPro()
 
     return 0;
 }
 // public native boolean openCamera(int facing);
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_openCamera(JNIEnv* env, jobject thiz, jint facing)
+JNIEXPORT jboolean JNICALL Java_org_cwcc_ani_ai_model_Yolov8Model_openCamera(JNIEnv* env, jobject thiz, jint facing)
 {
     if (facing < 0 || facing > 1)
         return JNI_FALSE;
@@ -353,7 +353,7 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_openCamera(JNI
 }
 
 // public native boolean closeCamera();
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_closeCamera(JNIEnv* env, jobject thiz)
+JNIEXPORT jboolean JNICALL Java_org_cwcc_ani_ai_model_Yolov8Model_closeCamera(JNIEnv* env, jobject thiz)
 {
     __android_log_print(ANDROID_LOG_DEBUG, "ncnn", "closeCamera");
 
@@ -363,7 +363,7 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_closeCamera(JN
 }
 
 // public native boolean setOutputWindow(Surface surface);
-JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_setOutputWindow(JNIEnv* env, jobject thiz, jobject surface)
+JNIEXPORT jboolean JNICALL Java_org_cwcc_ani_ai_model_Yolov8Model_setOutputWindow(JNIEnv* env, jobject thiz, jobject surface)
 {
     ANativeWindow* win = ANativeWindow_fromSurface(env, surface);
 
@@ -375,7 +375,7 @@ JNIEXPORT jboolean JNICALL Java_com_tencent_yolov8ncnn_Yolov8Ncnn_setOutputWindo
 }
 //检测图片，识别
 JNIEXPORT jobjectArray JNICALL
-Java_com_tencent_yolov8ncnn_Yolov8Ncnn_Detect(JNIEnv *env, jobject thiz, jobject bitmap)
+Java_org_cwcc_ani_ai_model_Yolov8Model_Detect(JNIEnv *env, jobject thiz, jobject bitmap)
 {
     double start_time = ncnn::get_current_time();
 
