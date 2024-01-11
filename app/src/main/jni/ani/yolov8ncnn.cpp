@@ -186,6 +186,21 @@ JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved)
     g_camera = 0;
 }
 
+JNIEXPORT void JNICALL
+Java_org_cwcc_ani_ai_model_Yolov8Model_toValue(JNIEnv *env, jobject thiz, jfloatArray vals) {
+    jfloat* featureData1 = (jfloat*)env->GetFloatArrayElements(vals, 0);
+    jsize featureSize1 = env->GetArrayLength(vals);
+    std::vector<float> featureVector1(featureSize1);
+}
+JNIEXPORT jfloatArray JNICALL
+Java_org_cwcc_ani_ai_model_Yolov8Model_getFloatValue(JNIEnv *env, jobject thiz) {
+    std::vector<float> faceFeatureData{0,1};
+    jfloatArray faceFeatureArray = env->NewFloatArray(faceFeatureData.size());
+
+    env->SetFloatArrayRegion(faceFeatureArray, 0, faceFeatureData.size(), faceFeatureData.data());
+    return faceFeatureArray;
+}
+
 /**
  * java的bitmap转为cv::Mat格式
  * @param env

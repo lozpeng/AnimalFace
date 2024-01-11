@@ -6,6 +6,10 @@
 
 namespace ani {
     namespace util {
+        /**
+         * 注册一些复杂类型
+         * @param env
+         */
         void registerNative(jni::JNIEnv& env) {
             jni::Class<Arrays>::Singleton(env);
             jni::Class<List>::Singleton(env);

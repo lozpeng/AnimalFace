@@ -29,6 +29,10 @@ add_library(ani SHARED
         ${ANI_DIR}/utils/utils.cpp
         ${ANI_DIR}/utils/utils.hpp
         ${ANI_DIR}/utils/noncopyable.hpp
+        ${ANI_DIR}/model/ModelInfo.cpp
+        ${ANI_DIR}/model/ModelInfo.hpp
+        ${ANI_DIR}/model/ModelInfo_JNI.cpp
+        ${ANI_DIR}/model/ModelInfo_JNI.hpp
         )
 
 target_link_libraries(ani ncnn ${OpenCV_LIBS} camera2ndk mediandk)

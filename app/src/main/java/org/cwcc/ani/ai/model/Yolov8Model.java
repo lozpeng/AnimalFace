@@ -11,6 +11,11 @@ public class Yolov8Model {
     public native boolean closeCamera();
     public native boolean setOutputWindow(Surface surface);
 
+
+    public native void toValue(float[] vals);
+
+    public native float[] getFloatValue();
+
     static {
         System.loadLibrary("ani");
     }
