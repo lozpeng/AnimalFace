@@ -8,7 +8,9 @@
 #include "ani_jni.hpp"
 #include "utils/utils.hpp"
 
-#include "model/ModelInfo_JNI.hpp"
+#include "model/android/ModelResult.hpp"
+
+#include "model/android/ModelInfo.hpp"
 
 namespace ani {
     //注册基础类
@@ -23,5 +25,6 @@ namespace ani {
 
         //注册一些需要与java进行交互的的对象
         andriod::ModelInfo::registerNative(env); // 注册模型信息
+        android::ModelResult::registerNative(env);//
     }
 }

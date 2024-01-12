@@ -8,17 +8,20 @@
 #include <vector>
 
 namespace ani{
+    /**
+     * 模型信息
+     */
    class ModelInfo::Impl{
    public:
-       std::string modelId;
-       std::string modelName;
-       std::string inputName;
-       std::string outputName;
-       int classes;
-       int cpuGpu;
-       int targetSize;
-       std::vector<float>  meanVals;  //数组，
-       std::vector<float>  normals;  //数组
+       std::string modelId;             //模型编号
+       std::string modelName;           //模型名称
+       std::string inputName;           //输入名称
+       std::string outputName;          //输出名称
+       int classes;                     //类数量
+       int cpuGpu;                      //使用CPU或GPU
+       int targetSize;                  //目标大小
+       std::vector<float>  meanVals;   //数组，
+       std::vector<float>  normals;    //数组
    };
     ModelInfo::ModelInfo()
             : impl_(std::make_unique<Impl>()) {}

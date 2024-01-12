@@ -167,7 +167,8 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
 
     g_camera = new MyNdkCamera;
     ani::registerNatives(vm);
-    return JNI_VERSION_1_6;
+    //return JNI_VERSION_1_6;
+    return jni::Unwrap(jni::jni_version_1_6);
     //return JNI_VERSION_1_4;
 }
 

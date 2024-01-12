@@ -5,6 +5,7 @@
 #include <jni/jni.hpp>
 #include "../utils/noncopyable.hpp"
 #include "ModelInfo.hpp"
+#include "../ModelInfo.hpp"
 
 namespace ani {
     namespace andriod{

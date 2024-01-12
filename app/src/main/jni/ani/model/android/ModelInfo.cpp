@@ -2,9 +2,10 @@
 // Created by lozpeng on 2024/1/8.
 //
 
-#include "ModelInfo_JNI.hpp"
-#include <jni/jni.hpp>
+#include "ModelInfo.hpp"
+#include "jni/jni.hpp"
 #include <optional>
+#include "ani_jni.hpp"
 
 namespace ani {
     namespace andriod {
@@ -24,8 +25,8 @@ namespace ani {
                     jni::jint,      //cpuGpu
                     jni::jint,      //targetSize
                     jni::jint//,      //classes
-                    //jni::jfloatArray , //meanVals
-                    //jni::jfloatArray //normals
+                    ,jni::Array<jni::jfloat>
+                    ,jni::Array<jni::jfloat>
                     >
                     (env);
             //如果给定值是可选 即可以为空
@@ -41,7 +42,18 @@ namespace ani {
             //env.SetFloatArrayRegion(jnormals, 0, modelInfo.normals().size(),
             //                        modelInfo.normals().data());
             //env.NewFloatArray(modelInfo.meanVals().size());
-
+            //--meanvals
+            auto value = modelInfo.meanVals();
+            auto jniMeanVals= jni::Array<jni::jfloat>::New(env,value.size());
+            for (std::size_t i = 0; i < value.size(); i++) {
+                jniMeanVals.Set(env, i, value.at(i));
+            }
+            //--normals
+            value = modelInfo.normals();
+            auto jniNormalVals=jni::Array<jni::jfloat>::New(env,value.size());
+            for (std::size_t i = 0; i < value.size(); i++) {
+                jniNormalVals.Set(env, i, value.at(i));
+            }
             return javaClass.New(
                     env,
                     constructor,
@@ -51,7 +63,9 @@ namespace ani {
                     jni::Make<jni::String>(env,modelInfo.outputName()),
                     jni::jint(modelInfo.gpu()),
                     jni::jint(modelInfo.targetSize()),
-                    jni::jint(modelInfo.classes())
+                    jni::jint(modelInfo.classes()),
+                    jniMeanVals,
+                    jniNormalVals
                    );
         }
 
@@ -72,14 +86,26 @@ namespace ani {
             static auto& javaClass =jni::Class<ModelInfo>::Singleton(env);
 
             static auto modelIdField  = javaClass.GetField<jni::String>(env,"ModelId");
-            //static auto meanValsField = javaClass.GetField<jni::jfloatArray>(env,"MeanVals");
-
+            static auto modelNameField = javaClass.GetField<jni::String>(env,"ModelName");
+            static auto inputNameField = javaClass.GetField<jni::String>(env,"InputName");
+            static auto outputNameField = javaClass.GetField<jni::String>(env,"OutputName");
+            static auto gpuCpuField = javaClass.GetField<jni::jint>(env,"GPUCPU");
+            static auto targetSizeField = javaClass.GetField<jni::jint>(env,"TargetSize");
+            static auto classesField = javaClass.GetField<jni::jint>(env,"Classes");
+            static auto meanValField = javaClass.GetField<jni::Array<jni::jfloat>>(env,"MeanVals");
+            static auto normalValField = javaClass.GetField<jni::Array<jni::jfloat>>(env,"Normals");
 
             auto retVal = ani::ModelInfo()
                     .withModelId(jni::Make<std::string>(env,jModelInfo.Get(env,modelIdField)))
-                    //.withMeanVals(jni::Make<std::vector<float>>(env, jModelInfo.Get(env,meanValsField)))
+                    .withModelName(jni::Make<std::string>(env,jModelInfo.Get(env,modelNameField)))
+                    .withInputName(jni::Make<std::string>(env,jModelInfo.Get(env,inputNameField)))
+                    .withOutputName(jni::Make<std::string>(env,jModelInfo.Get(env,outputNameField)))
+                    .withCpuGPU(jModelInfo.Get(env,gpuCpuField))
+                    .withTargetSize(jModelInfo.Get(env,targetSizeField))
+                    .withClasses(jModelInfo.Get(env,classesField))
+                    .withMeanVals(jni::Make<std::vector<float>>(env, jModelInfo.Get(env,meanValField)))
+                    .withNormals(jni::Make<std::vector<float>>(env, jModelInfo.Get(env,normalValField)))
                     ;
-
             return retVal;
         }
         /**
@@ -91,8 +117,9 @@ namespace ani {
             static auto& javaClass = jni::Class<ModelInfo>::Singleton(env);
             jni::RegisterNatives(env,
                                  *javaClass,
-                                 jni::MakeNativeMethod<decltype(&ModelInfo::DefaultModelInfo),
-                                         &ModelInfo::DefaultModelInfo>("defaultModelInfo"));
+                                 ANI_METHOD(&ModelInfo::DefaultModelInfo,"defaultModelInfo"));
+ //                                jni::MakeNativeMethod<decltype(&ModelInfo::DefaultModelInfo),
+ //                                        &ModelInfo::DefaultModelInfo>("defaultModelInfo"));
         }
     }
 } // ani

@@ -30,9 +30,9 @@ public class ModelInfo implements Parcelable {
             String outpuName,
             int cpuGpu,
             int targetSize,
-            int classes//,
-            //float[] meanVals,
-            //float[] normals
+            int classes,
+            float[] meanVals,
+            float[] normals
     )
     {
         this.ModelId=modelId;
@@ -41,10 +41,15 @@ public class ModelInfo implements Parcelable {
         this.OutputName = outpuName;
         this.GPUCPU = cpuGpu;
         this.TargetSize = targetSize;
-        //this.MeanVals = meanVals;
-        //this.Normals = normals;
+        this.MeanVals = meanVals;
+        this.Normals = normals;
         this.Classes = classes;
     }
+
+    /**
+     * 无参数构造函数
+     */
+    public ModelInfo(){}
 
     protected ModelInfo(Parcel in) {
         ModelId = in.readString();
@@ -212,4 +217,19 @@ public class ModelInfo implements Parcelable {
      */
     public static  native ModelInfo defaultModelInfo();
 
+    /**
+     *
+     * @return
+     */
+    public static ModelInfo WithDefaultParams()
+    {
+        ModelInfo info = new ModelInfo(  );
+        info.Normals = new float[]  { 1 / 255.f, 1 / 255.f, 1 / 255.f };
+        info.MeanVals = new float[]{103.53f, 116.28f, 123.675f};
+        info.TargetSize = 320;
+        info.InputName = "images";
+        info.OutputName = "output";
+
+        return info;
+    }
 }

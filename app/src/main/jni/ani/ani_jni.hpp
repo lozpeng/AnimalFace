@@ -37,4 +37,7 @@ namespace ani{
 
     bool attach_jni_thread(JavaVM* vm, JNIEnv** env, std::string threadName);
     void detach_jni_thread(JavaVM* vm, JNIEnv** env, bool detach);
+
+    #define ANI_METHOD(MethodPtr, name) jni::MakeNativeMethod<decltype(MethodPtr), (MethodPtr)>(name)
+    #define ANI_METHODP(MethodPtr, name) jni::MakeNativePeerMethod<decltype(MethodPtr), (MethodPtr)>(name)
 }

@@ -31,8 +31,17 @@ add_library(ani SHARED
         ${ANI_DIR}/utils/noncopyable.hpp
         ${ANI_DIR}/model/ModelInfo.cpp
         ${ANI_DIR}/model/ModelInfo.hpp
-        ${ANI_DIR}/model/ModelInfo_JNI.cpp
-        ${ANI_DIR}/model/ModelInfo_JNI.hpp
+        ${ANI_DIR}/model/ModelResult.cpp
+        ${ANI_DIR}/model/ModelResult.hpp
+        ${ANI_DIR}/utils/size.hpp
+        ${ANI_DIR}/model/image.hpp
+        #--android
+        ${ANI_DIR}/model/android/ModelInfo.cpp
+        ${ANI_DIR}/model/android/ModelInfo.hpp
+        ${ANI_DIR}/model/android/ModelResult.cpp
+        ${ANI_DIR}/model/android/ModelResult.hpp
+        ${ANI_DIR}/model/android/Bitmap.cpp
+        ${ANI_DIR}/model/android/Bitmap.hpp
         )
 
 target_link_libraries(ani ncnn ${OpenCV_LIBS} camera2ndk mediandk)
