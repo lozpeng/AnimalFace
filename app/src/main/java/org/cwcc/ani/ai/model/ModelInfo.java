@@ -5,231 +5,140 @@ import android.os.Parcelable;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.cwcc.ani.ai.utils.LibraryLoader;
+import org.cwcc.ani.ai.utils.ThreadUtils;
 
 /**
  * 模型基本信息
  */
-public class ModelInfo implements Parcelable {
-    /**
-     *
-     * @param modelId
-     * @param modelName
-     * @param inputName
-     * @param outpuName
-     * @param cpuGpu
-     * @param targetSize
-     * @param classes
-     * @param meanVals
-     * @param normals
-     */
+public class ModelInfo{
+    static {
+        LibraryLoader.load();
+    }
+    private static final String TAG = "AniAI-ModelInfo";
     @Keep
-    public ModelInfo(
-            String modelId,
-            String modelName,
-            String inputName,
-            String outpuName,
-            int cpuGpu,
-            int targetSize,
-            int classes,
-            float[] meanVals,
-            float[] normals
-    )
+    private long nativePtr;
+    protected boolean detached;
+
+    protected ModelInfo(long nativePtr)
     {
-        this.ModelId=modelId;
-        this.ModelName=modelName;
-        this.InputName = inputName;
-        this.OutputName = outpuName;
-        this.GPUCPU = cpuGpu;
-        this.TargetSize = targetSize;
-        this.MeanVals = meanVals;
-        this.Normals = normals;
-        this.Classes = classes;
+        this.nativePtr = nativePtr;
+    }
+    public ModelInfo() {
+        checkThread();
     }
 
-    /**
-     * 无参数构造函数
-     */
-    public ModelInfo(){}
-
-    protected ModelInfo(Parcel in) {
-        ModelId = in.readString();
-        ModelName = in.readString();
-        InputName = in.readString();
-        OutputName = in.readString();
-        GPUCPU = in.readInt();
-        TargetSize = in.readInt();
-        Classes = in.readInt();
-        MeanVals = in.createFloatArray();
-        Normals = in.createFloatArray();
+    protected void checkThread() {
+        ThreadUtils.checkThread(TAG);
     }
 
-    public static final Creator<ModelInfo> CREATOR = new Creator<ModelInfo>() {
-        @Override
-        public ModelInfo createFromParcel(Parcel in) {
-            return new ModelInfo(in);
+    public long getNativePtr() {
+        return nativePtr;
+    }
+
+    @Keep
+    protected native void setModelId(@NonNull String modelId);
+
+    @Keep
+    protected native void setModelName(@NonNull String modelName);
+
+    @Keep
+    protected native void setInputName(@NonNull String inputName);
+
+    @Keep
+    protected native void setOutputName(@NonNull String outputName);
+
+    @Keep
+    protected native void setGPUCUP(@NonNull String modelName);
+
+    @Keep
+    protected native void setTargetSize(@NonNull Integer targetSize);
+
+    @Keep
+    protected native void setClasses(@NonNull Integer classes);
+    @Keep
+    protected native void setMeanVals(@NonNull Float[] meanVals);
+
+    @Keep
+    protected native void setNormalVals(@NonNull Float[] normalVals);
+
+    @NonNull
+    @Keep
+    protected native String getModelId();
+
+    @NonNull
+    @Keep
+    protected native String getModelName();
+
+    @NonNull
+    @Keep
+    protected native String getInputName();
+
+    @NonNull
+    @Keep
+    protected native String getOutputName();
+
+    @NonNull
+    @Keep
+    protected native Integer getGPUCUP();
+
+    @NonNull
+    @Keep
+    protected native Integer getTargetSize();
+
+    @NonNull
+    @Keep
+    protected native Integer getClasses();
+    @NonNull
+    @Keep
+    protected native Integer getMeanVals();
+
+    @NonNull
+    @Keep
+    protected native Integer getNormalVals();
+
+    public static float[] Float2float(Float[] arr)
+    {
+        float[] farr = new float[arr.length];
+        for (int i=0;i<arr.length;i++ ) {
+            Float f = arr[i];
+            if(f==null||Float.isNaN(f))
+                farr[i]=0.0f;
+            else farr[i]=f.floatValue();
         }
-
-        @Override
-        public ModelInfo[] newArray(int size) {
-            return new ModelInfo[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+        return farr;
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(ModelId);
-        dest.writeString(ModelName);
-        dest.writeString(InputName);
-        dest.writeString(OutputName);
-        dest.writeInt(GPUCPU);
-        dest.writeInt(TargetSize);
-        dest.writeInt(Classes);
-        dest.writeFloatArray(MeanVals);
-        dest.writeFloatArray(Normals);
-    }
-    /**
-     * 模型编号，唯一编号，可以根据该编号查询一些名称基本信息
-     */
-    @Keep
-    private String ModelId;
-    /**
-     * 模型名称
-     */
-    @Keep
-    private String ModelName;
-    /**
-     * 输入层名称
-     */
-    @Keep
-    private String InputName;
-
-    /**
-     * 输出层名称
-     */
-    @Keep
-    private String OutputName;
-    /**
-     * 使用GPU或者CPU ，0表示CPU,1表示GPU
-     */
-    @Keep
-    private int  GPUCPU;
-    /**
-     * 目标大小
-     */
-    @Keep
-    private  int TargetSize;
-    /**
-     * 类数目
-     */
-    @Keep
-    private int Classes;
-    /**
-     * 均值
-     */
-    @Keep
-    private float[] MeanVals;
     /**
      *
-     */
-    @Keep
-    private float[] Normals;
-
-    public String getModelId() {
-        return ModelId;
-    }
-
-    public void setModelId(String modelId) {
-        ModelId = modelId;
-    }
-
-    public String getModelName() {
-        return ModelName;
-    }
-
-    public void setModelName(String modelName) {
-        ModelName = modelName;
-    }
-
-    public String getInputName() {
-        return InputName;
-    }
-
-    public void setInputName(String inputName) {
-        InputName = inputName;
-    }
-
-    public String getOutputName() {
-        return OutputName;
-    }
-
-    public void setOutputName(String outputName) {
-        OutputName = outputName;
-    }
-
-    public int getGPUCPU() {
-        return GPUCPU;
-    }
-
-    public void setGPUCPU(int GPUCPU) {
-        this.GPUCPU = GPUCPU;
-    }
-
-    public int getTargetSize() {
-        return TargetSize;
-    }
-
-    public void setTargetSize(int targetSize) {
-        TargetSize = targetSize;
-    }
-
-    public float[] getMeanVals() {
-        return MeanVals;
-    }
-
-    public void setMeanVals(float[] meanVals) {
-        MeanVals = meanVals;
-    }
-
-    public float[] getNormals() {
-        return Normals;
-    }
-
-    public void setNormals(float[] normals) {
-        Normals = normals;
-    }
-
-    public int getClasses() {
-        return Classes;
-    }
-
-    public void setClasses(int classes) {
-        Classes = classes;
-    }
-
-    /**
-     * 一个C++函数，用来与java端交互的
+     * @param arr
      * @return
      */
-    public static  native ModelInfo defaultModelInfo();
-
+    public static Float[] float2Float(float[] arr)
+    {
+        Float[] farr = new Float[arr.length];
+        for (int i=0;i<arr.length;i++ ) {
+            float f = arr[i];
+            if(Float.isNaN(f))
+                farr[i]=0.0f;
+            else farr[i]=f;
+        }
+        return farr;
+    }
     /**
      *
      * @return
      */
     public static ModelInfo WithDefaultParams()
     {
-        ModelInfo info = new ModelInfo(  );
-        info.Normals = new float[]  { 1 / 255.f, 1 / 255.f, 1 / 255.f };
-        info.MeanVals = new float[]{103.53f, 116.28f, 123.675f};
-        info.TargetSize = 320;
-        info.InputName = "images";
-        info.OutputName = "output";
-
+        ModelInfo info = new ModelInfo();
+        info.setMeanVals(new Float[]{103.53f, 116.28f, 123.675f});
+        info.setNormalVals(new Float[]  { 1 / 255.f, 1 / 255.f, 1 / 255.f });
+        info.setTargetSize(320);
+        info.setInputName("images");
+        info.setOutputName("output");
         return info;
     }
 }

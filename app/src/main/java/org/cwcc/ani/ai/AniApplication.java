@@ -3,6 +3,8 @@ package org.cwcc.ani.ai;
 import android.app.Application;
 import android.os.StrictMode;
 
+import org.cwcc.ani.ai.utils.ThreadUtils;
+
 public class AniApplication extends Application {
     @Override
     public void onCreate() {
@@ -13,5 +15,6 @@ public class AniApplication extends Application {
                 .detectFileUriExposure()
                 .build();
         StrictMode.setVmPolicy(policy);
+        ThreadUtils.init(getApplicationContext());
     }
 }

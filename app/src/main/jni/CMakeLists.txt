@@ -29,19 +29,27 @@ add_library(ani SHARED
         ${ANI_DIR}/utils/utils.cpp
         ${ANI_DIR}/utils/utils.hpp
         ${ANI_DIR}/utils/noncopyable.hpp
-        ${ANI_DIR}/model/ModelInfo.cpp
-        ${ANI_DIR}/model/ModelInfo.hpp
-        ${ANI_DIR}/model/ModelResult.cpp
-        ${ANI_DIR}/model/ModelResult.hpp
+        ${ANI_DIR}/YoloModel.hpp
+        ${ANI_DIR}/YoloModel.cpp
         ${ANI_DIR}/utils/size.hpp
         ${ANI_DIR}/model/image.hpp
+        ${ANI_DIR}/model/ModelResult.cpp
+        ${ANI_DIR}/model/ModelResult.hpp
         #--android
+        ${ANI_DIR}/model/android/AniModelResult.cpp
+        ${ANI_DIR}/model/android/AniModelResult.hpp
         ${ANI_DIR}/model/android/ModelInfo.cpp
         ${ANI_DIR}/model/android/ModelInfo.hpp
         ${ANI_DIR}/model/android/ModelResult.cpp
         ${ANI_DIR}/model/android/ModelResult.hpp
+        ${ANI_DIR}/model/android/attach_env.cpp
+        ${ANI_DIR}/model/android/attach_env.cpp
         ${ANI_DIR}/model/android/Bitmap.cpp
         ${ANI_DIR}/model/android/Bitmap.hpp
+        ${ANI_DIR}/model/android/conversion/collection.hpp
+        ${ANI_DIR}/model/android/conversion/collection.cpp
+        ${ANI_DIR}/model/android/conversion/conversion.hpp
+        ${ANI_DIR}/model/android/conversion/conversion.cpp
         )
 
 target_link_libraries(ani ncnn ${OpenCV_LIBS} camera2ndk mediandk)

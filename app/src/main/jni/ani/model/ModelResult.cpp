@@ -1,12 +1,8 @@
 //
-// Created by lozpeng on 2024/1/12.
+// Created by lozpeng on 2024/1/21.
 //
 
 #include "ModelResult.hpp"
-#include <memory>
-#include <optional>
-#include <string>
-#include <vector>
 
 namespace ani {
     class ModelResult::Impl{
@@ -19,89 +15,71 @@ namespace ani {
         float prob;     //目标识别结果置信度
         std::string label; //目标物注释
     };
-    ModelResult::ModelResult()
-            : impl_(std::make_unique<ModelResult::Impl>()) {}
+    ModelResult::ModelResult() :impl_(std::make_unique<ModelResult::Impl>())
+    {}
 
-     ModelResult::~ModelResult()=default;
-    // movable
-    ModelResult::ModelResult(ModelResult&& options) noexcept= default;
-    ModelResult& ModelResult:: operator=(ModelResult&& options) noexcept= default;
+    ModelResult::~ModelResult()= default;
+
+    ModelResult::ModelResult(ModelResult&& options)  noexcept = default;
+
+    ModelResult& ModelResult::operator=(ModelResult&&) noexcept = default;
 
     // copyable
-    ModelResult::ModelResult(const ModelResult& options): impl_(std::make_unique<Impl>(*options.impl_)) {}
+    ModelResult::ModelResult(const ModelResult& options)
+            : impl_(std::make_unique<Impl>(*options.impl_)) {}
 
-    ModelResult  ModelResult::clone() const {
+    ModelResult ModelResult::clone() const {
         return ModelResult(*this);
     }
 
-    ModelResult&  ModelResult::withX(float x)
-    {
+
+    ModelResult& ModelResult::withX(float x) {
         impl_->x = x;
         return *this;
     }
-    const float&  ModelResult::x()const
-    {
-        return impl_->x;
-    }
-
-    ModelResult&  ModelResult::withY(float y)
-    {
+    ModelResult& ModelResult::withY(float y){
         impl_->y = y;
         return *this;
-
     }
-    const float&  ModelResult::y()const
-    {
-        return impl_->y;
-    }
-
-
-    ModelResult&  ModelResult::withW(float w)
-    {
+    ModelResult& ModelResult::withW(float w){
         impl_->w = w;
         return *this;
     }
-    const float&  ModelResult::w()const
-    {
-        return impl_->w;
-    }
-
-
-    ModelResult&  ModelResult::withH(float h)
-    {
+    ModelResult& ModelResult::withH(float h){
         impl_->h = h;
         return *this;
     }
-    const float&  ModelResult::h()const
-    {
-        return impl_->h;
-    }
-
-    ModelResult&  ModelResult::withLabel(std::string label )
-    {
+    ModelResult& ModelResult::withLabel(std::string label ){
         impl_->label = std::move(label);
         return *this;
     }
-    const std::string&  ModelResult::label()const
-    {
-        return impl_->label;
-    }
-
-    ModelResult&  ModelResult::withIsLabel(bool isLabel) {
+    ModelResult& ModelResult::ModelResult::withIsLabel(bool isLabel){
         impl_->isLabel = isLabel;
         return *this;
     }
-    const bool&  ModelResult::isLabel()const {
-        return impl_->isLabel;
-
-    }
-
-    ModelResult&  ModelResult::withProb(float prob) {
+    ModelResult& ModelResult::withProb(float prob){
         impl_->prob = prob;
         return *this;
     }
-    const float& ModelResult::prob()const
-    {
+    const float ModelResult::ModelResult::x() const{
+        return impl_->x;
+    }
+    const float ModelResult::y() const{
+        return impl_->y;
+    }
+    const float ModelResult::w() const{
+        return impl_->w;
+    }
+    const float ModelResult::h() const{
+        return impl_->h;
+    }
+    const float ModelResult::prob() const{
         return impl_->prob;
+    }
+    const std::string& ModelResult::label() const{
+        return impl_->label;
+    }
+    const bool ModelResult::isLabel() const{
+        return impl_->isLabel;
     }
 } // ani

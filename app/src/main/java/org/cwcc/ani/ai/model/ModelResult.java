@@ -1,96 +1,101 @@
 package org.cwcc.ani.ai.model;
 
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+
+import org.cwcc.ani.ai.utils.LibraryLoader;
+import org.cwcc.ani.ai.utils.ThreadUtils;
+
 /**
  * 模型运行后结果，模型返回后应该是一个列表
  */
 public class ModelResult {
-    private float x;  //监测的结果起始位置
-    private float y; //监测的结果起始位置
-    private float w; //目标物在图像的宽度
-    private float h; //目标物在图像的高度
-    private String label; //目标物注释
-    private boolean isLabel;// 标识是否为标识
-    private float prob;     //目标识别结果置信度
-    private long peer;
+    private static final String TAG = "AniAI-ModelResult";
+    static {
+        LibraryLoader.load();
+    }
 
-    public ModelResult(){initialize();}
-    protected native void initialize();
-    protected native void finalize() throws Throwable;
-    /**
-     *
-     * @param x
-     * @param y
-     * @param w
-     * @param h
-     * @param label
-     * @param isLabel
-     * @param prb
-     */
-    public ModelResult(float x,float y,float w,float h,String label,boolean isLabel,float prb)
+    public native ModelResult DefaultResult();
+
+    @Keep
+    private long nativePtr;
+    protected boolean detached;
+
+    protected ModelResult(long nativePtr)
     {
-        this.setX(x);
-        this.setY(y);
-        this.setH(h);
-        this.setW(w);
-        this.setLabel(label);
-        this.setIsLabel(isLabel);
-        this.setProb(prb);
-        initialize();
+        this.nativePtr = nativePtr;
+    }
+    public ModelResult() {
+        checkThread();
     }
 
-    public float getX() {
-        return x;
+    protected void checkThread() {
+        ThreadUtils.checkThread(TAG);
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public long getNativePtr() {
+        return nativePtr;
     }
 
-    public float getY() {
-        return y;
+    public Float getX()
+    {
+        this.checkThread();
+        return nativeGetX();
+    }
+    public Float getY()
+    {
+        this.checkThread();
+        return nativeGetY();
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public Float getW()
+    {
+        this.checkThread();
+        return nativeGetW();
     }
 
-    public float getW() {
-        return w;
+    public Float getH()
+    {
+        this.checkThread();
+        return nativeGetH();
     }
 
-    public void setW(float w) {
-        this.w = w;
+    public Float getProb()
+    {
+        this.checkThread();
+        return nativeGetProb();
     }
 
-    public float getH() {
-        return h;
+    public String getLabel()
+    {
+        this.checkThread();
+        return nativeGetLabel();
     }
 
-    public void setH(float h) {
-        this.h = h;
-    }
+    @NonNull
+    @Keep
+    protected native String nativeGetId();
+    @NonNull
+    @Keep
+    protected native Float nativeGetX();
 
-    public String getLabel() {
-        return label;
-    }
+    @NonNull
+    @Keep
+    protected native Float nativeGetY();
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+    @NonNull
+    @Keep
+    protected native Float nativeGetW();
 
-    public boolean isLabel() {
-        return isLabel;
-    }
+    @NonNull
+    @Keep
+    protected native Float nativeGetH();
 
-    public void setIsLabel(boolean label) {
-        isLabel = label;
-    }
+    @NonNull
+    @Keep
+    protected native Float nativeGetProb();
 
-    public float getProb() {
-        return prob;
-    }
-
-    public void setProb(float prob) {
-        this.prob = prob;
-    }
+    @NonNull
+    @Keep
+    protected native String nativeGetLabel();
 }

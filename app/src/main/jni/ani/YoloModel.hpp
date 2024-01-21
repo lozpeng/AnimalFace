@@ -8,6 +8,8 @@
 #include <string>
 #include <jni.h>
 #include "model/android/ModelInfo.hpp"
+#include "model/android/ModelResult.hpp"
+#include "model/android/Bitmap.hpp"
 
 
 namespace ani {
@@ -19,9 +21,18 @@ namespace ani {
         static void registerNative(jni::JNIEnv&);
 
         //加载模型
-        jni::jboolean loadModel(jni::JNIEnv&,jni::Object<android::ModelInfo>&);
+        jni::Local<jni::Boolean> loadModel(jni::JNIEnv&,jni::Object<ani::android::ModelInfo>&);
 
-
+        /**
+         * 使用模型进行检测
+         */
+        jni::Local<jni::Array<jni::Object<android::ModelResult>>> detect(jni::JNIEnv&,jni::Object<android::Bitmap>&);
+        /**
+         *
+         */
+        jni::Local<jni::Array<jni::Object<android::ModelResult>>> detectByModel(jni::JNIEnv&,
+                                                                     jni::Object<ani::android::ModelInfo>&,
+                                                                     jni::Object<android::Bitmap>&);
     };
 
 } // ani

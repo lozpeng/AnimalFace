@@ -22,6 +22,7 @@ android {
                 arguments "-DANDROID_STL=" + stl
                 arguments "-DANDROID_CPP_FEATURES=exceptions"
 
+                cFlags "-Qunused-arguments -Os"
                 cppFlags "-Qunused-arguments -fopenmp"
                 abiFilters 'armeabi-v7a', 'arm64-v8a','x86_64'
                 //abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
