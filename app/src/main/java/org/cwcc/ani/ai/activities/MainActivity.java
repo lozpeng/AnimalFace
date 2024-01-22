@@ -35,6 +35,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.cwcc.ani.ai.R;
+import org.cwcc.ani.ai.model.AniModelResult;
 import org.cwcc.ani.ai.model.Yolov8Model;
 
 import java.util.ArrayList;
@@ -125,6 +126,15 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
             public void onClick(View arg0) {
                 Intent intent = new Intent(MainActivity.this, ImageSelectActivity.class);
                 startActivity(intent);
+
+                AniModelResult result = AniModelResult.DefaultResult();
+                String labl = result.getLabel();
+
+                Toast.makeText(MainActivity.this, "Welcome to Tutorials Point", Toast.LENGTH_SHORT).show();
+
+                Log.i("ImageSelectActivity","C++端反馈:"+labl);
+                Toast.makeText(MainActivity.this, "C++端反馈:"+labl, Toast.LENGTH_SHORT).show();
+                System.out.println(labl);
             }
         });
 

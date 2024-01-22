@@ -17,7 +17,7 @@ namespace ani {
                std::string outputName;          //输出名称
                int classes;                     //类数量
                int cpuGpu;                      //使用CPU或GPU
-               int targetSize;                  //目标大小
+               float targetSize;                  //目标大小
                std::vector<float>  meanVals;   //数组，
                std::vector<float>  normals;    //数组
         };
@@ -95,12 +95,12 @@ namespace ani {
             return jni::Make<jni::String>(env, impl_->outputName);
         }
 
-        void ModelInfo::setIsGPUCPU(jni::JNIEnv& env,const jni::Integer& gpuCpu)
+        void ModelInfo::setIsGPUCPU(jni::JNIEnv& env,const jni::Boolean& gpuCpu)
         {
-            impl_->cpuGpu = jni::Unbox(env,gpuCpu);
+            impl_->cpuGpu = jni::Unbox(env,gpuCpu)?1:0;
         }
-        jni::Local<jni::Integer> ModelInfo::getIsGPUCPU(jni::JNIEnv& env){
-           return jni::Box(env,this->impl_->cpuGpu);
+        jni::Local<jni::Boolean> ModelInfo::getIsGPUCPU(jni::JNIEnv& env){
+           return jni::Box(env,this->impl_->cpuGpu==1?jni::jboolean(true):jni::jboolean(false));
         }
         void ModelInfo::setClasses(jni::JNIEnv& env,const jni::Integer& classes){
             impl_->classes = jni::Unbox(env,classes);
@@ -154,11 +154,11 @@ namespace ani {
             }
             return result;
         }
-        void ModelInfo::setTargetSize(jni::JNIEnv& env,const jni::Integer& targetSize)
+        void ModelInfo::setTargetSize(jni::JNIEnv& env,const jni::Float& targetSize)
         {
             impl_->targetSize = jni::Unbox(env,targetSize);
         }
-        jni::Local<jni::Integer> ModelInfo::getTargetSize(jni::JNIEnv& env)
+        jni::Local<jni::Float> ModelInfo::getTargetSize(jni::JNIEnv& env)
         {
            return jni::Box(env,impl_->targetSize);
         }
@@ -184,8 +184,8 @@ namespace ani {
                                     METHOD(&ModelInfo::getInputName,"getInputName"),
                                     METHOD(&ModelInfo::setOutputName,"setOutputName"),
                                     METHOD(&ModelInfo::getOutputName,"getOutputName"),
-                                    METHOD(&ModelInfo::setIsGPUCPU,"setIsGPUCPU"),
-                                    METHOD(&ModelInfo::getIsGPUCPU,"getIsGPUCPU"),
+                                    METHOD(&ModelInfo::setIsGPUCPU,"setGPUCUP"),
+                                    METHOD(&ModelInfo::getIsGPUCPU,"getGPUCUP"),
                                     METHOD(&ModelInfo::setClasses,"setClasses"),
                                     METHOD(&ModelInfo::getClasses,"getClasses"),
                                     METHOD(&ModelInfo::setMeanVals,"setMeanVals"),

@@ -46,8 +46,8 @@ namespace ani {
                 void setOutputName(jni::JNIEnv&,const jni::String&);
                 jni::Local<jni::String> getOutputName(jni::JNIEnv&);
 
-                void setIsGPUCPU(jni::JNIEnv&,const jni::Integer&);
-                jni::Local<jni::Integer> getIsGPUCPU(jni::JNIEnv&);
+                void setIsGPUCPU(jni::JNIEnv&,const jni::Boolean &);
+                jni::Local<jni::Boolean> getIsGPUCPU(jni::JNIEnv&);
 
 
                 void setClasses(jni::JNIEnv&,const jni::Integer& );
@@ -59,8 +59,8 @@ namespace ani {
                 void setNormalVals(jni::JNIEnv&,const jni::Array<jni::Float>&);
                 jni::Local<jni::Array<jni::Float>> getNormalVals(jni::JNIEnv&);
 
-                void setTargetSize(jni::JNIEnv&,const jni::Integer&);
-                jni::Local<jni::Integer> getTargetSize(jni::JNIEnv&);
+                void setTargetSize(jni::JNIEnv&,const jni::Float&);
+                jni::Local<jni::Float> getTargetSize(jni::JNIEnv&);
          };
     }//android
 } // ani

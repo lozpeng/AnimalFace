@@ -15,8 +15,6 @@ public class ModelResult {
         LibraryLoader.load();
     }
 
-    public native ModelResult DefaultResult();
-
     @Keep
     private long nativePtr;
     protected boolean detached;

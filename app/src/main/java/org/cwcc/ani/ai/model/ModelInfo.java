@@ -51,10 +51,10 @@ public class ModelInfo{
     protected native void setOutputName(@NonNull String outputName);
 
     @Keep
-    protected native void setGPUCUP(@NonNull String modelName);
+    protected native void setGPUCUP(@NonNull Boolean gpucup);
 
     @Keep
-    protected native void setTargetSize(@NonNull Integer targetSize);
+    protected native void setTargetSize(@NonNull Float targetSize);
 
     @Keep
     protected native void setClasses(@NonNull Integer classes);
@@ -82,22 +82,22 @@ public class ModelInfo{
 
     @NonNull
     @Keep
-    protected native Integer getGPUCUP();
+    protected native Boolean getGPUCUP();
 
     @NonNull
     @Keep
-    protected native Integer getTargetSize();
+    protected native Float getTargetSize();
 
     @NonNull
     @Keep
     protected native Integer getClasses();
     @NonNull
     @Keep
-    protected native Integer getMeanVals();
+    protected native Float[] getMeanVals();
 
     @NonNull
     @Keep
-    protected native Integer getNormalVals();
+    protected native Float[] getNormalVals();
 
     public static float[] Float2float(Float[] arr)
     {
@@ -136,7 +136,7 @@ public class ModelInfo{
         ModelInfo info = new ModelInfo();
         info.setMeanVals(new Float[]{103.53f, 116.28f, 123.675f});
         info.setNormalVals(new Float[]  { 1 / 255.f, 1 / 255.f, 1 / 255.f });
-        info.setTargetSize(320);
+        info.setTargetSize(320.f);
         info.setInputName("images");
         info.setOutputName("output");
         return info;

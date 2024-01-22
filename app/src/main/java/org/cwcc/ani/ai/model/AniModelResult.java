@@ -59,6 +59,8 @@ public class AniModelResult implements Parcelable {
         }
     };
 
+    public static native AniModelResult DefaultResult();
+
     public float getX() {
         return x;
     }

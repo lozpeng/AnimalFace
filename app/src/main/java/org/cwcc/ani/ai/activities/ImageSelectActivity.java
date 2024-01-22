@@ -32,9 +32,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 import org.cwcc.ani.ai.R;
+import org.cwcc.ani.ai.model.AniModelResult;
 import org.cwcc.ani.ai.model.Yolov8Model;
 
 import java.io.FileNotFoundException;
@@ -119,6 +121,7 @@ public class ImageSelectActivity extends Activity
                 Intent i = new Intent(Intent.ACTION_PICK);
                 i.setType("image/*");
                 startActivityForResult(i, SELECT_IMAGE);
+
             }
         });
 

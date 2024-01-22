@@ -53,6 +53,7 @@ namespace ani{
                                 jni::JNIEnv& env, const jni::Class<AniModelResult>& jOptions)
         {
             auto options = ani::ModelResult();
+            options.withLabel("C++ Side测试");
             return AniModelResult::New(env, options);
         }
         //
@@ -62,9 +63,11 @@ namespace ani{
             static auto& javaClass = jni::Class<AniModelResult>::Singleton(env);
 
             static auto xField = javaClass.GetField<jni::jfloat>(env, "x");
-            static auto hField = javaClass.GetField<jni::jfloat>(env, "x");
+            static auto hField = javaClass.GetField<jni::jfloat>(env, "h");
+
 
             auto retVal = ani::ModelResult()
+                            .withLabel("test")
                             .withX(jOptions.Get(env,xField))
                             .withH(jOptions.Get(env,hField));
 
