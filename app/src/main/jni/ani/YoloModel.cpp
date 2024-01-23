@@ -3,6 +3,9 @@
 //
 
 #include "YoloModel.hpp"
+#include "model/android/asset_manager.hpp"
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
 
 namespace ani {
     void YoloModel::registerNative(jni::JNIEnv& env)
@@ -14,15 +17,32 @@ namespace ani {
                 env,
                 javaClass,
                 "nativePtr",
-                  METHOD(&YoloModel::loadModel,"nativeLoadModel")
-                , METHOD(&YoloModel::detect,"nativeDectect")
+                  METHOD(&YoloModel::detect,"nativeDectect")
                 , METHOD(&YoloModel::detectByModel,"nativeDectectByModel")
                 );
     }
+    jni::Local<jni::Object<android::AssetManager>> YoloModel::getAssetManager(jni::JNIEnv& env) {
+        static auto& javaClass = jni::Class<YoloModel>::Singleton(env);
+        auto method = javaClass.GetStaticMethod<jni::Object<android::AssetManager>()>(env, "getAssetManager");
+        return  javaClass.Call(env, method);
+    }
+
+    jboolean YoloModel::hasInstance(jni::JNIEnv& env) {
+        static auto& javaClass = jni::Class<YoloModel>::Singleton(env);
+        auto method = javaClass.GetStaticMethod<jboolean()>(env, "hasInstance");
+        return javaClass.Call(env, method);
+    }
+
 
     //加载模型
-    jni::Local<jni::Boolean> YoloModel::loadModel(jni::JNIEnv& env,jni::Object<ani::android::ModelInfo>& jModelInfo)
+    jni::Local<jni::Boolean> YoloModel::loadModel(jni::JNIEnv& env,
+                                                  jni::Object<ani::android::ModelInfo>& jModelInfo)
     {
+        //添加方法实现 ，加载模型
+        assetManager = jni::NewGlobal(env, getAssetManager(env));
+        //AAssetManager_fromJava(&env, jni::Unwrap(assetManager.get()));
+
+
         return jni::Local<jni::Boolean>(env, nullptr);
     }
 
@@ -41,6 +61,8 @@ namespace ani {
                                                                             jni::Object<ani::android::ModelInfo>& jModelInfo,
                                                                             jni::Object<android::Bitmap>& jBitMap)
     {
+        assetManager = jni::NewGlobal(env, getAssetManager(env));
+
 
         return jni::Local<jni::Array<jni::Object<android::ModelResult>>>(env, nullptr);
     }

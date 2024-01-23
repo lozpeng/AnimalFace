@@ -271,7 +271,7 @@ bool cvMatrix2Bitmap(JNIEnv * env, cv::Mat & matrix, jobject obj_bitmap) {
 }
 
 
-// public native boolean loadModel(AssetManager mgr, int modelid, int cpugpu);
+// public native boolean loadModel(asset_manager mgr, int modelid, int cpugpu);
 JNIEXPORT jboolean JNICALL Java_org_cwcc_ani_ai_model_Yolov8Model_loadModel(JNIEnv* env, jobject thiz, jobject assetManager, jint modelid, jint cpugpu)
 {
     if (modelid < 0 || modelid > 6 || cpugpu < 0 || cpugpu > 1)
@@ -348,7 +348,7 @@ JNIEXPORT jboolean JNICALL Java_org_cwcc_ani_ai_model_Yolov8Model_loadModel(JNIE
     return JNI_TRUE;
 }
 
-// public native boolean loadModelPro(AssetManager mgr,NcnnModel modelInfo);
+// public native boolean loadModelPro(asset_manager mgr,NcnnModel modelInfo);
 JNIEXPORT jboolean JNICALL
 Java_org_cwcc_ani_ai_model_Yolov8Model_loadModelPro(JNIEnv *env, jobject thiz, jobject mgr, jobject model_info) {
     // TODO: implement loadModelPro()

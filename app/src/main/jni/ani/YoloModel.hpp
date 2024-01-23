@@ -10,6 +10,7 @@
 #include "model/android/ModelInfo.hpp"
 #include "model/android/ModelResult.hpp"
 #include "model/android/Bitmap.hpp"
+#include "model/android/asset_manager.hpp"
 
 
 namespace ani {
@@ -19,9 +20,12 @@ namespace ani {
         static constexpr auto Name() { return "org/cwcc/ani/ai/model/YoloModel"; };
 
         static void registerNative(jni::JNIEnv&);
+        static jboolean hasInstance(jni::JNIEnv&);
+        static jni::Local<jni::Object<android::AssetManager>> getAssetManager(jni::JNIEnv&);
 
         //加载模型
-        jni::Local<jni::Boolean> loadModel(jni::JNIEnv&,jni::Object<ani::android::ModelInfo>&);
+        jni::Local<jni::Boolean> loadModel(jni::JNIEnv& env,
+                                                      jni::Object<ani::android::ModelInfo>& jModelInfo);
 
         /**
          * 使用模型进行检测
@@ -33,6 +37,8 @@ namespace ani {
         jni::Local<jni::Array<jni::Object<android::ModelResult>>> detectByModel(jni::JNIEnv&,
                                                                      jni::Object<ani::android::ModelInfo>&,
                                                                      jni::Object<android::Bitmap>&);
+    private:
+        jni::Global<jni::Object<android::AssetManager>> assetManager;
     };
 
 } // ani
