@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 
 import org.cwcc.ani.ai.R;
 import org.cwcc.ani.ai.model.AniModelResult;
+import org.cwcc.ani.ai.model.ModelInfo;
 import org.cwcc.ani.ai.model.Yolov8Model;
 
 import java.util.ArrayList;
@@ -135,6 +136,22 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
                 Log.i("ImageSelectActivity","C++端反馈:"+labl);
                 Toast.makeText(MainActivity.this, "C++端反馈:"+labl, Toast.LENGTH_SHORT).show();
                 System.out.println(labl);
+
+                try {
+                    //YoloModel aniModel = YoloModel.getInstance(MainActivity.this);//new YoloModel(MainActivity.this);
+                    ModelInfo modelInfo = ModelInfo.WithDefaultParams();
+                    String modelNames[] = {"yolov8n", "yolov8s", "birds_200-sim-opt-fp16"};
+                    modelInfo.setModelName(modelNames[current_model]);
+                    modelInfo.setGPUCUP(current_cpugpu == 1);
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+                /**
+                aniModel.LoadModel(modelInfo);
+                 */
+
             }
         });
 

@@ -11,9 +11,7 @@ import org.cwcc.ani.ai.utils.ThreadUtils;
  */
 public class ModelResult {
     private static final String TAG = "AniAI-ModelResult";
-    static {
-        LibraryLoader.load();
-    }
+
 
     @Keep
     private long nativePtr;

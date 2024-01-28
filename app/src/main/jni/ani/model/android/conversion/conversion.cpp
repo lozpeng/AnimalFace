@@ -9,6 +9,23 @@ namespace ani {
     namespace andriod {
         namespace conversion{
             /**
+             * 从jni的float array 转为
+             * @param env
+             * @param jFloatArray
+             * @param arry
+             * @return
+             */
+            int fromJniFloatArray(jni::JNIEnv& env ,jni::Local<jni::Array<jni::Float>>& jFloatArray,float* arry)
+            {
+                jni::NullCheck(env, &jFloatArray);
+                std::size_t len = jFloatArray.Length(env);
+
+                for (std::size_t i = 0; i < len; i += 1)
+                    arry[i] = jni::Unbox(env,jFloatArray.Get(env,i));
+
+                return len;
+            }
+            /**
              *
              * @param env
              * @param str

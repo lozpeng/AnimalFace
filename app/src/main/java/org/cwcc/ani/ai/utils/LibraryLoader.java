@@ -2,12 +2,16 @@ package org.cwcc.ani.ai.utils;
 
 import org.cwcc.ani.ai.log.Logger;
 
+import java.util.concurrent.locks.ReentrantLock;
+
+
 /**
  * java 加载jni so库
  */
 public abstract class LibraryLoader {
 
     private static final String TAG = "AniAI-LibraryLoader";
+
 
     private static volatile LibraryLoader loader=new SystemLibraryLoader();
 
@@ -22,8 +26,9 @@ public abstract class LibraryLoader {
         loader = libraryLoader;
     }
 
-
+    private static final ReentrantLock lock = new ReentrantLock();
     public static synchronized void load() {
+        lock.lock();
         try {
             if (!loaded) {
                 loader.load("ani");
@@ -33,6 +38,9 @@ public abstract class LibraryLoader {
             loaded = false;
             String message = "Failed to load native shared library.";
             Logger.e(TAG, message, error);
+        }
+        finally{
+            lock.unlock();
         }
     }
     public abstract void load(String name);

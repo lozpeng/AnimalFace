@@ -55,6 +55,9 @@ namespace ani {
              * @return
              */
             static jni::Local<jni::Array<jni::Float>> toJniDoubleArray(jni::JNIEnv& env,const std::vector<double>& value);
+
+
+            int fromJniFloatArray(jni::JNIEnv& ,jni::Local<jni::Array<jni::Float>>&,float* );
         }
     }
 }

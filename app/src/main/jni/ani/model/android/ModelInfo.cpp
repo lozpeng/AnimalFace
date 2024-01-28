@@ -17,7 +17,7 @@ namespace ani {
                std::string outputName;          //输出名称
                int classes;                     //类数量
                int cpuGpu;                      //使用CPU或GPU
-               float targetSize;                  //目标大小
+               int targetSize;                  //目标大小
                std::vector<float>  meanVals;   //数组，
                std::vector<float>  normals;    //数组
         };
@@ -154,11 +154,11 @@ namespace ani {
             }
             return result;
         }
-        void ModelInfo::setTargetSize(jni::JNIEnv& env,const jni::Float& targetSize)
+        void ModelInfo::setTargetSize(jni::JNIEnv& env,const jni::Integer& targetSize)
         {
             impl_->targetSize = jni::Unbox(env,targetSize);
         }
-        jni::Local<jni::Float> ModelInfo::getTargetSize(jni::JNIEnv& env)
+        jni::Local<jni::Integer> ModelInfo::getTargetSize(jni::JNIEnv& env)
         {
            return jni::Box(env,impl_->targetSize);
         }
@@ -175,7 +175,9 @@ namespace ani {
              * 注册链接C++和java端函数
              */
             jni::RegisterNativePeer<ModelInfo>(
-                                  env, javaClass, "nativePtr",
+                                  env,
+                                  javaClass,
+                                  "nativePtr",
                                     METHOD(&ModelInfo::setModelName,"setModelName"),  //需要将方法定义为const jni:: & 类型
                                     METHOD(&ModelInfo::getModelName,"getModelName"),
                                     METHOD(&ModelInfo::setModelId,"setModelId"),

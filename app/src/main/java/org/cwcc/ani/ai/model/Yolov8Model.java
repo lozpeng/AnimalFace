@@ -7,9 +7,6 @@ import android.view.Surface;
 import org.cwcc.ani.ai.utils.LibraryLoader;
 
 public class Yolov8Model {
-    static {
-        LibraryLoader.load();
-    }
 
     public native boolean loadModel(AssetManager mgr, int modelid, int cpugpu);
 

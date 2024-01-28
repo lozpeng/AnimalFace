@@ -14,6 +14,7 @@
 #include "model/android/AniModelResult.hpp"
 #include "model/android/ModelResult.hpp"
 
+#include "YoloModel.hpp"
 namespace ani {
     //注册基础类
     void registerNatives(JavaVM* vm) {
@@ -29,5 +30,7 @@ namespace ani {
         android::ModelResult::registerNative(env);//
         android::Bitmap::registerNative(env);//注册图片
         android::AniModelResult::registerNative(env);
+
+        android::YoloModel::registerNative(env);//注册模型
     }
 }

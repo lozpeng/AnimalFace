@@ -4,7 +4,6 @@
 //
 #include <jni/jni.hpp>
 #include "../utils/noncopyable.hpp"
-#include "ModelInfo.hpp"
 
 namespace ani {
     namespace android{
@@ -59,8 +58,8 @@ namespace ani {
                 void setNormalVals(jni::JNIEnv&,const jni::Array<jni::Float>&);
                 jni::Local<jni::Array<jni::Float>> getNormalVals(jni::JNIEnv&);
 
-                void setTargetSize(jni::JNIEnv&,const jni::Float&);
-                jni::Local<jni::Float> getTargetSize(jni::JNIEnv&);
+                void setTargetSize(jni::JNIEnv&,const jni::Integer&);
+                jni::Local<jni::Integer> getTargetSize(jni::JNIEnv&);
          };
     }//android
 } // ani

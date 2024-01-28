@@ -14,9 +14,6 @@ import org.cwcc.ani.ai.utils.ThreadUtils;
  * 模型基本信息
  */
 public class ModelInfo{
-    static {
-        LibraryLoader.load();
-    }
     private static final String TAG = "AniAI-ModelInfo";
     @Keep
     private long nativePtr;
@@ -27,77 +24,77 @@ public class ModelInfo{
         this.nativePtr = nativePtr;
     }
     public ModelInfo() {
-        checkThread();
     }
-
-    protected void checkThread() {
-        ThreadUtils.checkThread(TAG);
-    }
-
     public long getNativePtr() {
         return nativePtr;
     }
 
     @Keep
-    protected native void setModelId(@NonNull String modelId);
+    private native void nativeDestroy();
 
     @Keep
-    protected native void setModelName(@NonNull String modelName);
+    private native void nativeInitialize(ModelInfo nativeInfo);
 
     @Keep
-    protected native void setInputName(@NonNull String inputName);
+    public native void setModelId(@NonNull String modelId);
 
     @Keep
-    protected native void setOutputName(@NonNull String outputName);
+    public native void setModelName(@NonNull String modelName);
 
     @Keep
-    protected native void setGPUCUP(@NonNull Boolean gpucup);
+    public native void setInputName(@NonNull String inputName);
 
     @Keep
-    protected native void setTargetSize(@NonNull Float targetSize);
+    public native void setOutputName(@NonNull String outputName);
 
     @Keep
-    protected native void setClasses(@NonNull Integer classes);
-    @Keep
-    protected native void setMeanVals(@NonNull Float[] meanVals);
+    public native void setGPUCUP(@NonNull Boolean gpucup);
 
     @Keep
-    protected native void setNormalVals(@NonNull Float[] normalVals);
+    public native void setTargetSize(@NonNull Integer targetSize);
 
-    @NonNull
     @Keep
-    protected native String getModelId();
+    public native void setClasses(@NonNull Integer classes);
+    @Keep
+    public native void setMeanVals(@NonNull Float[] meanVals);
 
-    @NonNull
     @Keep
-    protected native String getModelName();
+    public native void setNormalVals(@NonNull Float[] normalVals);
 
     @NonNull
     @Keep
-    protected native String getInputName();
+    public native String getModelId();
 
     @NonNull
     @Keep
-    protected native String getOutputName();
+    public native String getModelName();
 
     @NonNull
     @Keep
-    protected native Boolean getGPUCUP();
+    public native String getInputName();
 
     @NonNull
     @Keep
-    protected native Float getTargetSize();
+    public native String getOutputName();
 
     @NonNull
     @Keep
-    protected native Integer getClasses();
-    @NonNull
-    @Keep
-    protected native Float[] getMeanVals();
+    public native Boolean getGPUCUP();
 
     @NonNull
     @Keep
-    protected native Float[] getNormalVals();
+    public native Integer getTargetSize();
+
+    @NonNull
+    @Keep
+    public native Integer getClasses();
+    @NonNull
+    @Keep
+    public native Float[] getMeanVals();
+
+    @NonNull
+    @Keep
+    public native Float[] getNormalVals();
 
     public static float[] Float2float(Float[] arr)
     {
@@ -136,7 +133,7 @@ public class ModelInfo{
         ModelInfo info = new ModelInfo();
         info.setMeanVals(new Float[]{103.53f, 116.28f, 123.675f});
         info.setNormalVals(new Float[]  { 1 / 255.f, 1 / 255.f, 1 / 255.f });
-        info.setTargetSize(320.f);
+        info.setTargetSize(320);
         info.setInputName("images");
         info.setOutputName("output");
         return info;
