@@ -29,12 +29,14 @@ add_library(ani SHARED
         ${ANI_DIR}/utils/utils.cpp
         ${ANI_DIR}/utils/utils.hpp
         ${ANI_DIR}/utils/noncopyable.hpp
-        ${ANI_DIR}/YoloModel.hpp
-        ${ANI_DIR}/YoloModel.cpp
+        ${ANI_DIR}/AniAIModel.hpp
+        ${ANI_DIR}/AniAIModel.cpp
         ${ANI_DIR}/utils/size.hpp
         ${ANI_DIR}/model/image.hpp
         ${ANI_DIR}/model/ModelResult.cpp
         ${ANI_DIR}/model/ModelResult.hpp
+        ${ANI_DIR}/model/ModelInfo.hpp
+        ${ANI_DIR}/model/ModelInfo.cpp
         #--android
         ${ANI_DIR}/model/android/AniModelResult.cpp
         ${ANI_DIR}/model/android/AniModelResult.hpp

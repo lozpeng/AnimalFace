@@ -2,7 +2,7 @@
 // Created by lozpeng on 2024/1/12.
 //
 
-#include "YoloModel.hpp"
+#include "AniAIModel.hpp"
 #include "model/android/asset_manager.hpp"
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
@@ -15,19 +15,19 @@
 
 namespace ani {
     namespace android {
-        void YoloModel::registerNative(jni::JNIEnv &env) {
-            jni::Class<YoloModel>::Singleton(env);
+        void AniAIModel::registerNative(jni::JNIEnv &env) {
+            jni::Class<AniAIModel>::Singleton(env);
         }
 
-        jni::Local<jni::Object<android::AssetManager>> YoloModel::getAssetManager(jni::JNIEnv &env) {
-            static auto& javaClass = jni::Class<YoloModel>::Singleton(env);
+        jni::Local<jni::Object<android::AssetManager>> AniAIModel::getAssetManager(jni::JNIEnv &env) {
+            static auto& javaClass = jni::Class<AniAIModel>::Singleton(env);
             auto method = javaClass.GetStaticMethod<jni::Object<android::AssetManager>()>(env,
                                                                                           "getAssetManager");
             return javaClass.Call(env, method);
         }
 
-        jboolean YoloModel::hasInstance(jni::JNIEnv &env) {
-            static auto &javaClass = jni::Class<YoloModel>::Singleton(env);
+        jboolean AniAIModel::hasInstance(jni::JNIEnv &env) {
+            static auto &javaClass = jni::Class<AniAIModel>::Singleton(env);
             auto method = javaClass.GetStaticMethod<jboolean()>(env, "hasInstance");
             return javaClass.Call(env, method);
         }
@@ -36,7 +36,7 @@ namespace ani {
          * @param env
          * @return
          */
-        AAssetManager* YoloModel::getAAssetManager(jni::JNIEnv &env)
+        AAssetManager* AniAIModel::getAAssetManager(jni::JNIEnv &env)
         {
             //jni::Global<jni::Object<android::AssetManager>>
             auto  assetManager  = jni::NewGlobal(env, getAssetManager(env));
@@ -51,7 +51,7 @@ namespace ani {
     static ncnn::Mutex lock;
 
     //加载模型
-    jni::Local<jni::Boolean> YoloModel::loadModel(jni::JNIEnv& env,
+    jni::Local<jni::Boolean> AniAIModel::loadModel(jni::JNIEnv& env,
                                                   jni::Object<ani::android::ModelInfo>& jModelInfo)
     {
         //添加方法实现 ，加载模型
@@ -63,7 +63,7 @@ namespace ani {
         if(mgr==nullptr)
             return jni::Box(env,jni::jni_false);
 
-        __android_log_print(ANDROID_LOG_DEBUG, "YoloModel", "loadModel %p", mgr);
+        __android_log_print(ANDROID_LOG_DEBUG, "AniAIModel", "loadModel %p", mgr);
         using namespace ani;
         //java object transform to c++ptr actually it's also the same C++ object ptr
         static auto& javaClass = jni::Class<android::ModelInfo>::Singleton(env);
@@ -71,7 +71,7 @@ namespace ani {
         android::ModelInfo* modelInfo =  reinterpret_cast<android::ModelInfo*>(jModelInfo.Get(env, field));
 
         const std::string modelName =jni::Make<std::string>(env,modelInfo->getModelName(env));
-        __android_log_print(ANDROID_LOG_DEBUG, "YoloModel", "loadModel %s", modelName.c_str());
+        __android_log_print(ANDROID_LOG_DEBUG, "AniAIModel", "loadModel %s", modelName.c_str());
 
         const int targetSize = jni::Unbox(env,modelInfo->getTargetSize(env));
         const int use_gpu = jni::Unbox(env,modelInfo->getIsGPUCPU(env));
@@ -106,20 +106,20 @@ namespace ani {
                              meanVals,
                              normals,
                              use_gpu);
-                __android_log_print(ANDROID_LOG_DEBUG, "YoloModel", "loadModel %s", "模型加载成功！");
+                __android_log_print(ANDROID_LOG_DEBUG, "AniAIModel", "loadModel %s", "模型加载成功！");
             }
         }
         return jni::Box(env,jni::jni_true);
     }
 
-    jni::Local<jni::Array<jni::Object<android::ModelResult>>> YoloModel::detect(jni::JNIEnv& env,
+    jni::Local<jni::Array<jni::Object<android::ModelResult>>> AniAIModel::detect(jni::JNIEnv& env,
                                                                                     jni::Object<android::Bitmap>& jBitMap)
     {
         PremultipliedImage pImage = android::Bitmap::GetImage(env,jBitMap);
 
         return jni::Local<jni::Array<jni::Object<android::ModelResult>>>(env, nullptr);
     }
-    jni::Local<jni::Array<jni::Object<android::ModelResult>>> YoloModel::detectByModel(jni::JNIEnv& env,
+    jni::Local<jni::Array<jni::Object<android::ModelResult>>> AniAIModel::detectByModel(jni::JNIEnv& env,
                                                                             jni::Object<ani::android::ModelInfo>& jModelInfo,
                                                                             jni::Object<android::Bitmap>& jBitMap)
     {

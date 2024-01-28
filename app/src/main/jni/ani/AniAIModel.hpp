@@ -2,8 +2,8 @@
 // Created by lozpeng on 2024/1/12.
 //
 
-#ifndef ANIMALFACE_YOLOMODEL_HPP
-#define ANIMALFACE_YOLOMODEL_HPP
+#ifndef ANIMALFACE_ANIAIMODEL_HPP
+#define ANIMALFACE_ANIAIMODEL_HPP
 #include <jni/jni.hpp>
 #include <string>
 #include <jni.h>
@@ -13,7 +13,7 @@
 
 namespace ani {
     namespace android {
-        class YoloModel {
+        class AniAIModel {
         public:
             static constexpr auto Name() { return "org/cwcc/ani/ai/model/AniAIModel"; };
 
@@ -44,4 +44,4 @@ namespace ani {
     }
 } // ani
 
-#endif //ANIMALFACE_YOLOMODEL_HPP
+#endif //ANIMALFACE_ANIAIMODEL_HPP

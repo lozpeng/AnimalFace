@@ -45,7 +45,7 @@ public final class AniAIModel {
             Context appContext = context.getApplicationContext();
             INSTANCE = new AniAIModel(appContext);
         }
-        Log.i(TAG,"YoloModel inited success!");
+        Log.i(TAG,"AniAIModel inited success!");
         return INSTANCE;
     }
 

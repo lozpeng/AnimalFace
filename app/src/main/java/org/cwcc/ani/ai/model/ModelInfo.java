@@ -15,86 +15,131 @@ import org.cwcc.ani.ai.utils.ThreadUtils;
  */
 public class ModelInfo{
     private static final String TAG = "AniAI-ModelInfo";
-    @Keep
-    private long nativePtr;
-    protected boolean detached;
-
-    protected ModelInfo(long nativePtr)
-    {
-        this.nativePtr = nativePtr;
+    public ModelInfo(){}
+    /**
+     * 构造函数
+     * @param mId
+     * @param mName
+     * @param inName
+     * @param outName
+     * @param cls
+     * @param cpu
+     * @param tSize
+     * @param means
+     * @param norms
+     */
+    public ModelInfo(
+            String mId,
+            String mName,
+            String inName,
+            String outName,
+            Integer cls,
+            Integer cpu,
+            Integer tSize,
+            Float[] means,
+            Float[] norms
+    ){
+        this.setModelId(mId);
+        this.setModelName(mName);
+        this.setInputName(inName);
+        this.setOutputName(outName);
+        this.setClasses(cls);
+        this.setCpuGpu(cpu);
+        this.setTargetSize(tSize);
+        this.setMeanVals(means);
+        this.setNormals(norms);
     }
-    public ModelInfo() {
+
+    @Keep
+    private String modelId;
+    @Keep
+    private String modelName;
+    @Keep
+    private String inputName;
+    @Keep
+    private String outputName;
+    @Keep
+    private Integer classes;                     //类数量
+    @Keep
+    private Integer cpuGpu;                      //使用CPU或GPU
+    @Keep
+    private Integer targetSize;                  //目标大小
+    @Keep
+    private Float[]  meanVals;   //数组，
+    @Keep
+    private Float[]  normals;    //数组
+
+    public String getModelId() {
+        return modelId;
     }
-    public long getNativePtr() {
-        return nativePtr;
+
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
     }
 
-    @Keep
-    private native void nativeDestroy();
+    public String getModelName() {
+        return modelName;
+    }
 
-    @Keep
-    private native void nativeInitialize(ModelInfo nativeInfo);
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
 
-    @Keep
-    public native void setModelId(@NonNull String modelId);
+    public String getInputName() {
+        return inputName;
+    }
 
-    @Keep
-    public native void setModelName(@NonNull String modelName);
+    public void setInputName(String inputName) {
+        this.inputName = inputName;
+    }
 
-    @Keep
-    public native void setInputName(@NonNull String inputName);
+    public String getOutputName() {
+        return outputName;
+    }
 
-    @Keep
-    public native void setOutputName(@NonNull String outputName);
+    public void setOutputName(String outputName) {
+        this.outputName = outputName;
+    }
 
-    @Keep
-    public native void setGPUCUP(@NonNull Boolean gpucup);
+    public Integer getClasses() {
+        return classes;
+    }
 
-    @Keep
-    public native void setTargetSize(@NonNull Integer targetSize);
+    public void setClasses(Integer classes) {
+        this.classes = classes;
+    }
 
-    @Keep
-    public native void setClasses(@NonNull Integer classes);
-    @Keep
-    public native void setMeanVals(@NonNull Float[] meanVals);
+    public Integer getCpuGpu() {
+        return cpuGpu;
+    }
 
-    @Keep
-    public native void setNormalVals(@NonNull Float[] normalVals);
+    public void setCpuGpu(Integer cpuGpu) {
+        this.cpuGpu = cpuGpu;
+    }
 
-    @NonNull
-    @Keep
-    public native String getModelId();
+    public Integer getTargetSize() {
+        return targetSize;
+    }
 
-    @NonNull
-    @Keep
-    public native String getModelName();
+    public void setTargetSize(Integer targetSize) {
+        this.targetSize = targetSize;
+    }
 
-    @NonNull
-    @Keep
-    public native String getInputName();
+    public Float[] getMeanVals() {
+        return meanVals;
+    }
 
-    @NonNull
-    @Keep
-    public native String getOutputName();
+    public void setMeanVals(Float[] meanVals) {
+        this.meanVals = meanVals;
+    }
 
-    @NonNull
-    @Keep
-    public native Boolean getGPUCUP();
+    public Float[] getNormals() {
+        return normals;
+    }
 
-    @NonNull
-    @Keep
-    public native Integer getTargetSize();
-
-    @NonNull
-    @Keep
-    public native Integer getClasses();
-    @NonNull
-    @Keep
-    public native Float[] getMeanVals();
-
-    @NonNull
-    @Keep
-    public native Float[] getNormalVals();
+    public void setNormals(Float[] normals) {
+        this.normals = normals;
+    }
 
     public static float[] Float2float(Float[] arr)
     {
@@ -132,7 +177,7 @@ public class ModelInfo{
     {
         ModelInfo info = new ModelInfo();
         info.setMeanVals(new Float[]{103.53f, 116.28f, 123.675f});
-        info.setNormalVals(new Float[]  { 1 / 255.f, 1 / 255.f, 1 / 255.f });
+        info.setNormals(new Float[]  { 1 / 255.f, 1 / 255.f, 1 / 255.f });
         info.setTargetSize(320);
         info.setInputName("images");
         info.setOutputName("output");

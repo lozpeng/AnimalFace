@@ -138,11 +138,11 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
                 System.out.println(labl);
 
                 try {
-                    //YoloModel aniModel = YoloModel.getInstance(MainActivity.this);//new YoloModel(MainActivity.this);
+                    //AniAIModel aniModel = AniAIModel.getInstance(MainActivity.this);//new AniAIModel(MainActivity.this);
                     ModelInfo modelInfo = ModelInfo.WithDefaultParams();
                     String modelNames[] = {"yolov8n", "yolov8s", "birds_200-sim-opt-fp16"};
                     modelInfo.setModelName(modelNames[current_model]);
-                    modelInfo.setGPUCUP(current_cpugpu == 1);
+                    modelInfo.setCpuGpu(current_cpugpu);
                 }
                 catch (Exception ex)
                 {
