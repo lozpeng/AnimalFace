@@ -7,9 +7,10 @@ namespace ani {
              * @return
              */
             UniqueEnv AttachEnv() {
+                assert(theJVM);
+
                 JNIEnv* env = nullptr;
                 jint err = theJVM->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6);
-
                 switch (err) {
                     case JNI_OK:
                         return UniqueEnv(env, JNIEnvDeleter(*theJVM, false));

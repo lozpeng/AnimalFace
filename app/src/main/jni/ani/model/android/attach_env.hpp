@@ -16,6 +16,7 @@ public:
         : vm(&v),
           detach(d) {}
 
+
     void operator()(jni::JNIEnv* p) const {
         if (p && detach) {
             assert(vm);

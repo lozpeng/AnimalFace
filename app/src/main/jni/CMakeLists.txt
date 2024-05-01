@@ -29,8 +29,14 @@ add_library(ani SHARED
         ${ANI_DIR}/utils/utils.cpp
         ${ANI_DIR}/utils/utils.hpp
         ${ANI_DIR}/utils/noncopyable.hpp
-        ${ANI_DIR}/AniAIModel.hpp
-        ${ANI_DIR}/AniAIModel.cpp
+        ${ANI_DIR}/utils/anindkcamera.hpp
+        ${ANI_DIR}/utils/anindkcamera.cpp
+        ${ANI_DIR}/utils/cvimageutils.hpp
+        ${ANI_DIR}/utils/cvimageutils.cpp
+        ${ANI_DIR}/utils/platform.hpp
+        ${ANI_DIR}/platform/thread.hpp
+        ${ANI_DIR}/AniAI.hpp
+        ${ANI_DIR}/AniAI.cpp
         ${ANI_DIR}/utils/size.hpp
         ${ANI_DIR}/model/image.hpp
         ${ANI_DIR}/model/ModelResult.cpp
@@ -38,6 +44,7 @@ add_library(ani SHARED
         ${ANI_DIR}/model/ModelInfo.hpp
         ${ANI_DIR}/model/ModelInfo.cpp
         #--android
+        ${ANI_DIR}/android/thread.cpp
         ${ANI_DIR}/model/android/AniModelResult.cpp
         ${ANI_DIR}/model/android/AniModelResult.hpp
         ${ANI_DIR}/model/android/ModelInfo.cpp

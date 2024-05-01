@@ -2,20 +2,32 @@
 // Created by lozpeng on 2024/1/12.
 //
 
-#ifndef ANIMALFACE_ANIAIMODEL_HPP
-#define ANIMALFACE_ANIAIMODEL_HPP
+#ifndef ANIMALFACE_ANIAI_HPP
+#define ANIMALFACE_ANIAI_HPP
 #include <jni/jni.hpp>
 #include <string>
 #include <jni.h>
 #include "model/android/asset_manager.hpp"
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
+#include "yolo.h"
+#include "utils/anindkcamera.hpp"
+
+static Yolo* g_yolo =0;
+static ncnn::Mutex lock;
+static ani::AniNdkCamera* g_camera=0;
+
+//默认值
+static char* g_modelType ="yolov8n";  //这个模型默认部署的时候需要带上
+static int g_targetSize = 320;
+static int g_modelId =0;
+static bool g_use_gpu= false;
 
 namespace ani {
     namespace android {
-        class AniAIModel {
+        class AniAI {
         public:
-            static constexpr auto Name() { return "org/cwcc/ani/ai/model/AniAIModel"; };
+            static constexpr auto Name() { return "org/cwcc/ani/ai/model/AniAI"; };
 
             static void registerNative(jni::JNIEnv &);
 
@@ -44,4 +56,4 @@ namespace ani {
     }
 } // ani
 
-#endif //ANIMALFACE_ANIAIMODEL_HPP
+#endif //ANIMALFACE_ANIAI_HPP

@@ -100,8 +100,8 @@ namespace ani {
             std::vector<float> means;
             toStdFloatVector(env,jModelInfo.Get(env,meanValsFields),means);
             //==== normal values
-            std::vector<float> normals;
-            toStdFloatVector(env,jModelInfo.Get(env,normValsFields),normals);
+            std::vector<float> nmls;
+            toStdFloatVector(env,jModelInfo.Get(env,normValsFields),nmls);
 
             auto retVal = ani::ModelInfo()
                     .withModelName(jni::Make<std::string>(env, jModelInfo.Get(env, modelNameField)))
@@ -112,7 +112,7 @@ namespace ani {
                     .withCPUGPU(jni::Unbox(env,jModelInfo.Get(env,cpuField)))
                     .withTargetSize(jni::Unbox(env,jModelInfo.Get(env,targetSizeField)))
                     .withMeanVals(means)
-                    .withNormals(normals)
+                    .withNormals(nmls)
                     ;
             return retVal;
         }

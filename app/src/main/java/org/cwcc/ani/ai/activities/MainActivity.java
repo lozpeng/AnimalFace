@@ -138,11 +138,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
                 System.out.println(labl);
 
                 try {
-                    //AniAIModel aniModel = AniAIModel.getInstance(MainActivity.this);//new AniAIModel(MainActivity.this);
+                    //AniAI aniModel = AniAI.getInstance(MainActivity.this);//new AniAI(MainActivity.this);
                     ModelInfo modelInfo = ModelInfo.WithDefaultParams();
                     String modelNames[] = {"yolov8n", "yolov8s", "birds_200-sim-opt-fp16"};
                     modelInfo.setModelName(modelNames[current_model]);
                     modelInfo.setCpuGpu(current_cpugpu);
+
                 }
                 catch (Exception ex)
                 {

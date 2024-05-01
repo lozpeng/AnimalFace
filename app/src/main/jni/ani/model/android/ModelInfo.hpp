@@ -24,7 +24,7 @@ namespace ani {
 
                 static ani::ModelInfo getModelInfo(jni::JNIEnv&, const jni::Object<ModelInfo>&);
 
-                static size_t toStdFloatVector(jni::JNIEnv&,const jni::Array<jni::Float>& jMeanVals,std::vector<float>&);
+                static size_t toStdFloatVector(jni::JNIEnv&,const jni::Array<jni::Float>&,std::vector<float>&);
 
                 ModelInfo(const ModelInfo&) = delete; // noncopyable
                 ~ModelInfo();

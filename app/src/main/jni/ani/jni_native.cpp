@@ -14,12 +14,13 @@
 #include "model/android/AniModelResult.hpp"
 #include "model/android/ModelResult.hpp"
 
-#include "AniAIModel.hpp"
+#include "AniAI.hpp"
 namespace ani {
     //注册基础类
     void registerNatives(JavaVM* vm) {
+        assert(vm);
         theJVM = vm;
-
+        //android::UniqueEnv env{android::AttachEnv()};
         jni::JNIEnv& env = jni::GetEnv(*vm, jni::jni_version_1_6);
 
         ani::java::registerNatives(env); //注册基础类型
@@ -31,6 +32,6 @@ namespace ani {
         android::Bitmap::registerNative(env);//注册图片
         android::AniModelResult::registerNative(env);
 
-        android::AniAIModel::registerNative(env);//注册模型
+        android::AniAI::registerNative(env);//注册模型
     }
 }

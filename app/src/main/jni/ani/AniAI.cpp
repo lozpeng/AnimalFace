@@ -2,7 +2,7 @@
 // Created by lozpeng on 2024/1/12.
 //
 
-#include "AniAIModel.hpp"
+#include "AniAI.hpp"
 #include "model/android/asset_manager.hpp"
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
@@ -13,21 +13,47 @@
 #include "model/android/ModelInfo.hpp"
 #include "yolo.h"
 
+#include "jni_native.hpp"
+#include "utils/anindkcamera.hpp"
+#include "model/android/attach_env.hpp"
+
+extern "C" JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *) {
+    assert(vm != nullptr);
+    ani::registerNatives(vm);
+    __android_log_print(ANDROID_LOG_DEBUG, "AniAI", "JNI_OnLoaded");
+    return JNI_VERSION_1_6;
+    //return jni::Unwrap(jni::jni_version_1_6);
+}
+
+extern "C" JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved) {
+    {
+        ncnn::MutexLockGuard g(lock);
+        if(g_yolo)
+            delete g_yolo;
+
+        g_yolo = 0;
+    }
+    if(g_camera)
+        delete g_camera;
+
+    g_camera = 0;
+    __android_log_print(ANDROID_LOG_DEBUG, "AniAI", "JNI_OnUnloaded");
+}
 namespace ani {
     namespace android {
-        void AniAIModel::registerNative(jni::JNIEnv &env) {
-            jni::Class<AniAIModel>::Singleton(env);
+        void AniAI::registerNative(jni::JNIEnv &env) {
+            jni::Class<AniAI>::Singleton(env);
         }
 
-        jni::Local<jni::Object<android::AssetManager>> AniAIModel::getAssetManager(jni::JNIEnv &env) {
-            static auto& javaClass = jni::Class<AniAIModel>::Singleton(env);
+        jni::Local<jni::Object<android::AssetManager>> AniAI::getAssetManager(jni::JNIEnv &env) {
+            static auto& javaClass = jni::Class<AniAI>::Singleton(env);
             auto method = javaClass.GetStaticMethod<jni::Object<android::AssetManager>()>(env,
                                                                                           "getAssetManager");
             return javaClass.Call(env, method);
         }
 
-        jboolean AniAIModel::hasInstance(jni::JNIEnv &env) {
-            static auto &javaClass = jni::Class<AniAIModel>::Singleton(env);
+        jboolean AniAI::hasInstance(jni::JNIEnv &env) {
+            static auto &javaClass = jni::Class<AniAI>::Singleton(env);
             auto method = javaClass.GetStaticMethod<jboolean()>(env, "hasInstance");
             return javaClass.Call(env, method);
         }
@@ -36,7 +62,7 @@ namespace ani {
          * @param env
          * @return
          */
-        AAssetManager* AniAIModel::getAAssetManager(jni::JNIEnv &env)
+        AAssetManager* AniAI::getAAssetManager(jni::JNIEnv &env)
         {
             //jni::Global<jni::Object<android::AssetManager>>
             auto  assetManager  = jni::NewGlobal(env, getAssetManager(env));
@@ -51,7 +77,7 @@ namespace ani {
     static ncnn::Mutex lock;
 
     //加载模型
-    jni::Local<jni::Boolean> AniAIModel::loadModel(jni::JNIEnv& env,
+    jni::Local<jni::Boolean> AniAI::loadModel(jni::JNIEnv& env,
                                                   jni::Object<ani::android::ModelInfo>& jModelInfo)
     {
         //添加方法实现 ，加载模型
@@ -63,7 +89,7 @@ namespace ani {
         if(mgr==nullptr)
             return jni::Box(env,jni::jni_false);
 
-        __android_log_print(ANDROID_LOG_DEBUG, "AniAIModel", "loadModel %p", mgr);
+        __android_log_print(ANDROID_LOG_DEBUG, "AniAI", "loadModel %p", mgr);
         using namespace ani;
         //java object transform to c++ptr actually it's also the same C++ object ptr
         static auto& javaClass = jni::Class<android::ModelInfo>::Singleton(env);
@@ -71,7 +97,7 @@ namespace ani {
         android::ModelInfo* modelInfo =  reinterpret_cast<android::ModelInfo*>(jModelInfo.Get(env, field));
 
         const std::string modelName =jni::Make<std::string>(env,modelInfo->getModelName(env));
-        __android_log_print(ANDROID_LOG_DEBUG, "AniAIModel", "loadModel %s", modelName.c_str());
+        __android_log_print(ANDROID_LOG_DEBUG, "AniAI", "loadModel %s", modelName.c_str());
 
         const int targetSize = jni::Unbox(env,modelInfo->getTargetSize(env));
         const int use_gpu = jni::Unbox(env,modelInfo->getIsGPUCPU(env));
@@ -106,20 +132,20 @@ namespace ani {
                              meanVals,
                              normals,
                              use_gpu);
-                __android_log_print(ANDROID_LOG_DEBUG, "AniAIModel", "loadModel %s", "模型加载成功！");
+                __android_log_print(ANDROID_LOG_DEBUG, "AniAI", "loadModel %s", "模型加载成功！");
             }
         }
         return jni::Box(env,jni::jni_true);
     }
 
-    jni::Local<jni::Array<jni::Object<android::ModelResult>>> AniAIModel::detect(jni::JNIEnv& env,
+    jni::Local<jni::Array<jni::Object<android::ModelResult>>> AniAI::detect(jni::JNIEnv& env,
                                                                                     jni::Object<android::Bitmap>& jBitMap)
     {
         PremultipliedImage pImage = android::Bitmap::GetImage(env,jBitMap);
 
         return jni::Local<jni::Array<jni::Object<android::ModelResult>>>(env, nullptr);
     }
-    jni::Local<jni::Array<jni::Object<android::ModelResult>>> AniAIModel::detectByModel(jni::JNIEnv& env,
+    jni::Local<jni::Array<jni::Object<android::ModelResult>>> AniAI::detectByModel(jni::JNIEnv& env,
                                                                             jni::Object<ani::android::ModelInfo>& jModelInfo,
                                                                             jni::Object<android::Bitmap>& jBitMap)
     {

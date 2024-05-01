@@ -18,17 +18,17 @@ import org.cwcc.ani.ai.utils.ThreadUtils;
 @UiThread
 @SuppressLint("StaticFieldLeak")
 @Keep
-public final class AniAIModel {
+public final class AniAI {
     static {
         LibraryLoader.load();
     }
-    private static final String TAG = "AniAI-AniAIModel";
+    private static final String TAG = "AniAI-AniAI";
 
-    private static AniAIModel INSTANCE;
+    private static AniAI INSTANCE;
 
     private Context context;
 
-    AniAIModel(@NonNull Context context) {
+    AniAI(@NonNull Context context) {
         this.context = context;
     }
     /**
@@ -36,16 +36,16 @@ public final class AniAIModel {
      * @param context
      * @return
      */
-    public static synchronized AniAIModel getInstance(@NonNull Context context)
+    public static synchronized AniAI getInstance(@NonNull Context context)
     {
         ThreadUtils.init(context);
         ThreadUtils.checkThread(TAG);
         if (INSTANCE == null) {
             //Timber.plant();
             Context appContext = context.getApplicationContext();
-            INSTANCE = new AniAIModel(appContext);
+            INSTANCE = new AniAI(appContext);
         }
-        Log.i(TAG,"AniAIModel inited success!");
+        Log.i(TAG,"AniAI inited success!");
         return INSTANCE;
     }
 
